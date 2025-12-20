@@ -16,6 +16,5 @@ document.getElementById("loginBtn").addEventListener("click", async () => {
     window.location.href = "./index.html";
   } catch (error) {
     alert(error.message);
-    console.error(error.message);
   }
 });

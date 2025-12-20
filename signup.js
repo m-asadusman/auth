@@ -16,6 +16,6 @@ document.getElementById("signupBtn").addEventListener("click", async () => {
     window.location.href = "./login.html";
   } catch (error) {
     alert(error.message);
-    console.error(error.message);
   }
 });
+
