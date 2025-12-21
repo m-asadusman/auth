@@ -1,5 +1,4 @@
-import { auth } from "./firebase.js";
-import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
+import { auth, createUserWithEmailAndPassword } from "./firebase.js";
 
 document.getElementById("signupBtn").addEventListener("click", async () => {
   const email = document.getElementById("email").value;
@@ -18,4 +17,3 @@ document.getElementById("signupBtn").addEventListener("click", async () => {
     alert(error.message);
   }
 });
-

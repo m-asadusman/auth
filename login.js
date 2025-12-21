@@ -1,5 +1,4 @@
-import { auth } from "./firebase.js";
-import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
+import { auth, signInWithEmailAndPassword } from "./firebase.js";
 
 document.getElementById("loginBtn").addEventListener("click", async () => {
   const email = document.getElementById("email").value;
