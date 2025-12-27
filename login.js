@@ -1,4 +1,4 @@
-import { auth, signInWithEmailAndPassword } from "./firebase.js";
+import { auth, signInWithEmailAndPassword, onAuthStateChanged } from "./firebase.js";
 
 document.getElementById("loginBtn").addEventListener("click", async () => {
   const email = document.getElementById("email").value;
@@ -8,6 +8,12 @@ document.getElementById("loginBtn").addEventListener("click", async () => {
     alert("Please fill all fields");
     return;
   }
+
+  onAuthStateChanged(auth, (user)=>{
+    if(!user.emailVerified){
+      return
+    }
+  })
 
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
