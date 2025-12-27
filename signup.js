@@ -12,7 +12,7 @@ document.getElementById("signupBtn").addEventListener("click", async () => {
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     alert("Account Created: " + userCredential.user.email);
-    window.location.href = "./verify.html";
+    window.location.href = "./login.html";
   } catch (error) {
     alert(error.message);
   }

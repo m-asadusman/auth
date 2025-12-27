@@ -1,30 +1,35 @@
 import {auth, sendEmailVerification, onAuthStateChanged} from "./firebase.js"
 
-verify()
+onAuthStateChanged(auth, async (user) => {
+    if (!user) return;
 
-async function verify(){
-    const email = document.getElementById('email').value
-    
-    try {
-        await sendEmailVerification(auth)
-        alert('Email verification sent to: ', email)
-        onAuthStateChanged(auth, (user) =>{
-            if(user.emailVerified){
-                window.location.href = "./login.html"
-            }   
-        })
-        
-    } catch (error) {
-        alert(error.message)
-    }
-}
+    if (!user.emailVerified) {
+        const sent = sessionStorage.getItem("verificationSent");
 
-document.getElementById('verifyBtn').onclick = async ()=>{
-    const email = document.getElementById('email').value
-    try {
-        await sendEmailVerification(auth)
-        alert('Email verification sent to: ', email)
-    } catch (error) {
-        alert(error.message)
+        if (!sent) {
+            try {
+                await sendEmailVerification(user);
+                sessionStorage.setItem("verificationSent", "true");
+                alert(`Email verification sent to: ${user.email}`);
+            } catch (error) {
+                alert(error.message);
+            }
+        }
+    } else {
+        window.location.href = "./index.html";
     }
-}
+});
+
+
+document.getElementById("checkBtn").onclick = async () => {
+    const user = auth.currentUser;
+    if (!user) return;
+
+    await user.reload();
+
+    if (user.emailVerified) {
+        window.location.href = "./index.html";
+    } else {
+        alert("Email not verified yet. Please check your inbox.");
+    }
+};

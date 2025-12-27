@@ -1,21 +1,19 @@
 import { auth, onAuthStateChanged, signOut } from "./firebase.js";
 
-const logoutBtn = document.getElementById('logoutBtn')
-
-onAuthStateChanged(auth, user =>{
-    if(!user){
-        window.location.href = "./login.html"
+onAuthStateChanged(auth, async (user) => {
+    if (!user) {
+        window.location.href = "./login.html";
+        return;
     }
-})
 
-logoutBtn.onclick = async function(){
-    
-    try {
-        await signOut(auth)
-        window.location.href = "./login.html"
-    } catch (error) {
-        alert(error.message)
+    await user.reload();
+
+    if (!user.emailVerified) {
+        window.location.href = "./verify.html";
     }
-}
+});
 
-
+document.getElementById('logoutBtn').onclick = async () => {
+    await signOut(auth);
+    window.location.href = "./login.html";
+};

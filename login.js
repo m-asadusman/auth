@@ -1,4 +1,4 @@
-import { auth, signInWithEmailAndPassword, onAuthStateChanged } from "./firebase.js";
+import { auth, signInWithEmailAndPassword } from "./firebase.js";
 
 document.getElementById("loginBtn").addEventListener("click", async () => {
   const email = document.getElementById("email").value;
@@ -9,16 +9,17 @@ document.getElementById("loginBtn").addEventListener("click", async () => {
     return;
   }
 
-  onAuthStateChanged(auth, (user)=>{
-    if(!user.emailVerified){
-      return
-    }
-  })
-
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
-    alert("Logged In: " + userCredential.user.email);
-    window.location.href = "./index.html";
+    const user = userCredential.user;
+
+    await user.reload();
+
+    if (user.emailVerified) {
+      window.location.href = "./index.html";
+    } else {
+      window.location.href = "./verify.html";
+    }
   } catch (error) {
     alert(error.message);
   }
